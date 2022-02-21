@@ -1,5 +1,5 @@
 #include "opengl_interface.hpp"
-
+#include <iostream>
 namespace GL {
 
 void handle_error(const std::string& prefix, const GLenum err)
@@ -57,13 +57,13 @@ void reshape_window(int w, int h)
 void display(void)
 {
     // sort the displayables by their z-coordinate
-    std::sort(display_queue.begin(), display_queue.end(), disp_z_cmp {});
+    std::sort(Displayable::display_queue.begin(), Displayable::display_queue.end(), disp_z_cmp {});
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(-zoom, zoom, -zoom, zoom, 0.0f, 1.0f); // left, right, bottom, top, near, far
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_TEXTURE_2D);
-    for (const auto& item : display_queue)
+    for (const auto& item : Displayable::display_queue)
     {
         item->display();
     }
@@ -73,12 +73,23 @@ void display(void)
 
 void timer(const int step)
 {
-    for (auto& item : move_queue)
-    {
-        item->move();
+    if(!pause){
+        for (auto it = move_queue.begin(); it != move_queue.end();)
+        {
+            auto* dynamic_obj = *it;
+            dynamic_obj->move();
+            if (!dynamic_obj->should_destroy())
+                ++it;
+            else
+            {
+                it = move_queue.erase(it);
+                delete dynamic_obj;
+            }
+        }
     }
     glutPostRedisplay();
     glutTimerFunc(1000u / ticks_per_sec, timer, step + 1);
+
 }
 
 void init_gl(int argc, char** argv, const char* title)
@@ -111,6 +122,18 @@ void loop()
 void exit_loop()
 {
     glutLeaveMainLoop();
+}
+
+void up_down_framerate(const int value)
+{
+    if (value < 0)
+        ticks_per_sec = (ticks_per_sec == 1 ? 1 : ticks_per_sec - 1u);
+    else
+        ticks_per_sec = (ticks_per_sec == 150 ? 150 : ticks_per_sec + 1u);
+}
+
+void break_resume(){
+    pause = !pause;
 }
 
 } // namespace GL

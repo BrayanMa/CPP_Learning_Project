@@ -92,6 +92,10 @@ void Aircraft::move()
 {
     if (waypoints.empty())
     {
+        if(is_service_done){
+            redecollage = true;
+            return;
+        }
         waypoints = control.get_instructions(*this);
     }
 
@@ -120,7 +124,7 @@ void Aircraft::move()
             if (!landing_gear_deployed)
             {
                 using namespace std::string_literals;
-                throw AircraftCrash { flight_number + " crashed into the ground"s };
+                throw AircraftCrash { flight_number + " crashed into the ground" };
             }
         }
         else
@@ -141,4 +145,9 @@ void Aircraft::move()
 void Aircraft::display() const
 {
     type.texture.draw(project_2D(pos), { PLANE_TEXTURE_DIM, PLANE_TEXTURE_DIM }, get_speed_octant());
+}
+
+bool Aircraft::should_destroy() const
+{
+    return redecollage;
 }
