@@ -74,7 +74,10 @@ void display(void)
 void timer(const int step)
 {
     if(!pause){
-        for (auto it = move_queue.begin(); it != move_queue.end();)
+        for(auto& item : move_queue){
+                item->move();
+        }
+        /*for (auto it = move_queue.begin(); it != move_queue.end();)
         {
             auto* dynamic_obj = *it;
             dynamic_obj->move();
@@ -85,7 +88,7 @@ void timer(const int step)
                 it = move_queue.erase(it);
                 delete dynamic_obj;
             }
-        }
+        }*/
     }
     glutPostRedisplay();
     glutTimerFunc(1000u / ticks_per_sec, timer, step + 1);
