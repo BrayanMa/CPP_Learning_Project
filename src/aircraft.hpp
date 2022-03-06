@@ -10,7 +10,7 @@
 #include <string>
 #include <string_view>
 
-class Aircraft : public GL::Displayable, public GL::DynamicObject
+class Aircraft : public GL::Displayable
 {
 private:
     const AircraftType& type;
@@ -64,8 +64,8 @@ public:
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }
 
     void display() const override;
-    void move() override;
-    bool should_destroy() const override;
+    void move();
+    bool should_destroy() const;
 
     friend class Tower;
 };
