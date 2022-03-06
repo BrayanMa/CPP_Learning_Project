@@ -23,7 +23,7 @@ struct AircraftType
 };
 
 constexpr size_t NUM_AIRCRAFT_TYPES = 3;
-inline AircraftType* aircraft_types[NUM_AIRCRAFT_TYPES] {};
+/*inline AircraftType* aircraft_types[NUM_AIRCRAFT_TYPES] {};
 
 // note: textures have to be initialized after initializing glut, so we'll need
 // our own init here
@@ -33,3 +33,4 @@ inline void init_aircraft_types()
     aircraft_types[1] = new AircraftType { .02f, .05f, .02f, MediaPath { "b707_jat.png" } };
     aircraft_types[2] = new AircraftType { .02f, .1f, .02f, MediaPath { "concorde_af.png" } };
 }
+*/

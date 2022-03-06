@@ -15,11 +15,10 @@ class AircraftManager : public GL::DynamicObject
 private:
     const std::string airlines[8] = { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" };
     std::vector<std::unique_ptr<Aircraft>> aircrafts;
-    void create_aircraft(const AircraftType& type,Airport* airport);
 
 public:
-    void create_random_aircraft(Airport* airport);
     void move() override;
+    void add_aircraft(std::unique_ptr<Aircraft> aircraft);
 };
 
 #endif // TOWER_SIM_AIRCRAFTMANAGER_HPP
