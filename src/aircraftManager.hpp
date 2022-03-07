@@ -7,18 +7,21 @@
 
 #include <vector>
 #include <memory>
+#include <algorithm>
+
 #include "aircraft.hpp"
 #include "airport.hpp"
 
 class AircraftManager : public GL::DynamicObject
 {
 private:
-    const std::string airlines[8] = { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" };
+   // const std::string airlines[8] = { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" };
     std::vector<std::unique_ptr<Aircraft>> aircrafts;
 
 public:
     void move() override;
     void add_aircraft(std::unique_ptr<Aircraft> aircraft);
+    int recup_airlines(const std::string_view& model);
 };
 
 #endif // TOWER_SIM_AIRCRAFTMANAGER_HPP

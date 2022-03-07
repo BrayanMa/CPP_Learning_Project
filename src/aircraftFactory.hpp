@@ -25,6 +25,7 @@ public:
     std::unique_ptr<Aircraft> create_random_aircraft(Airport* airport);
     void add_name(const std::string& basicString);
     std::set<std::string> getUniqueAircrafts() {return uniqueAircrafts;}
+    const std::string_view get_airlines(unsigned int number) const;
 };
 
 #endif // TOWER_SIM_AIRCRAFTFACTORY_HPP
