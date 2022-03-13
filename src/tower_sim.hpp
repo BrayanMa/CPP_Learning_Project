@@ -45,6 +45,7 @@ private:
 
     void init_airport();
     void init_manager();
+
 public:
     TowerSimulation(ContextInitializer& contextInitializer) :
         help {(contextInitializer.getArgc() > 1) && (std::string { contextInitializer.getArgv()[1] } == "--help" || std::string { contextInitializer.getArgv()[1] } == "-h") },

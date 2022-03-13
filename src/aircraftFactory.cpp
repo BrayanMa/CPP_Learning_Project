@@ -33,3 +33,9 @@ void AircraftFactory::add_name(const std::string& name)
 {
     uniqueAircrafts.emplace(name);
 }
+
+const std::string_view AircraftFactory::get_airlines(unsigned int number) const
+{
+    assert(number < 8 && "Our airlines number doesn't match");
+    return airlines[number];
+}

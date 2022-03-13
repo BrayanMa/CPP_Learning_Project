@@ -88,12 +88,21 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
     }
 }
 
-void Aircraft::move()
+void Aircraft::update()
 {
+    if (is_circling() && !has_terminal())
+    {
+        WaypointQueue way = control.reserve_terminal(*this);
+        if (!way.empty())
+        {
+            waypoints = std::move(way);
+        }
+    }
+
     if (waypoints.empty())
     {
         if(is_service_done){
-            redecollage = true;
+            destroyable = true;
             return;
         }
         waypoints = control.get_instructions(*this);
@@ -135,6 +144,13 @@ void Aircraft::move()
             {
                 pos.z() -= SINK_FACTOR * (SPEED_THRESHOLD - speed_len);
             }
+            fuel --;
+            if (fuel <= 0.)
+            {
+                destroyable = true;
+                std::cout << "Au revoir" <<std::endl;
+                //throw AircraftCrash { flight_number + " out of fuel" };
+            }
         }
 
         // update the z-value of the displayable structure
@@ -149,5 +165,29 @@ void Aircraft::display() const
 
 bool Aircraft::should_destroy() const
 {
-    return redecollage;
+    return destroyable;
+}
+
+bool Aircraft::has_terminal() const
+{
+    return !waypoints.empty() && waypoints.back().is_at_terminal();
+}
+
+bool Aircraft::is_circling() const{
+    return !is_on_ground() && !is_service_done;
+}
+
+bool Aircraft::is_low_on_fuel() const{
+    return fuel < 200;
+}
+
+void Aircraft::refill(float& fuel_stock)
+{
+    assert(fuel_stock >= 0.f && "The fuel stock cannot be negative");
+    const auto refill = 3000 - fuel < fuel_stock ? 3000 - fuel : fuel_stock;
+    fuel += refill;
+    fuel_stock -= refill;
+    if(refill > 0.f){
+        std::cout << flight_number << "was refilled with " << refill << "unit(s) of fuel" << std::endl;
+    }
 }
