@@ -21,7 +21,6 @@ TowerSimulation::~TowerSimulation()
 void TowerSimulation::create_aircraft()
 {
     assert(airport);
-
     std::unique_ptr<Aircraft> aircraft = aircraft_factory.create_random_aircraft(airport);
     auto set = aircraft_factory.getUniqueAircrafts();
     if(set.find(aircraft->get_flight_num()) != set.end()){
@@ -52,6 +51,8 @@ void TowerSimulation::create_keystrokes()
     GL::keystrokes.emplace('5', [this]() { std::cout<< aircraft_manager.recup_airlines(aircraft_factory.get_airlines(5))<< std::endl; });
     GL::keystrokes.emplace('6', [this]() { std::cout<< aircraft_manager.recup_airlines(aircraft_factory.get_airlines(6))<< std::endl; });
     GL::keystrokes.emplace('7', [this]() { std::cout<< aircraft_manager.recup_airlines(aircraft_factory.get_airlines(7))<< std::endl; });
+    GL::keystrokes.emplace('m', [this]() { std::cout<< aircraft_manager.get_aircraft_crashed() << std::endl; });
+
 }
 
 void TowerSimulation::display_help() const

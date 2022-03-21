@@ -148,8 +148,8 @@ void Aircraft::update()
             if (fuel <= 0.)
             {
                 destroyable = true;
-                std::cout << "Au revoir" <<std::endl;
-                //throw AircraftCrash { flight_number + " out of fuel" };
+                // std::cout << "Au revoir" <<std::endl;
+                throw AircraftCrash { flight_number + " out of fuel" };
             }
         }
 

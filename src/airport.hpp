@@ -50,6 +50,7 @@ private:
 
     WaypointQueue start_path(const size_t terminal_number)
     {
+        assert(terminal_number < terminals.size() && "Out of terminals length");
         return type.terminal_to_air(pos, 0, terminal_number);
     }
 
