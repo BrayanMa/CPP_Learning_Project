@@ -18,8 +18,13 @@ void AircraftManager::move()
                   return (it1->get_fuel() < it2->get_fuel());
               });
 
-    std::function<bool(std::unique_ptr<Aircraft>&)> predicat = [](const std::unique_ptr<Aircraft>& aircraft){
-        aircraft->update();
+    std::function<bool(std::unique_ptr<Aircraft>&)> predicat = [this](const std::unique_ptr<Aircraft>& aircraft){
+        try {
+            aircraft->update();
+        } catch (const AircraftCrash& err) {
+            this->aircraft_crashed++;
+            std::cerr << err.what() << std::endl;
+        }
         return aircraft->should_destroy();
     };
 
@@ -29,6 +34,7 @@ void AircraftManager::move()
 
 void AircraftManager::add_aircraft(std::unique_ptr<Aircraft> aircraft)
 {
+    assert(aircraft && "Aircraft cannot be empty");
     aircrafts.push_back(std::move(aircraft));
 }
 
