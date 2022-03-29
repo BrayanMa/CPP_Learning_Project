@@ -42,7 +42,7 @@ private:
     void arrive_at_terminal();
     // deploy and retract landing gear depending on next waypoints
     void operate_landing_gear();
-    void add_waypoint(const Waypoint& wp, const bool front);
+    template <bool front> void add_waypoint(const Waypoint& wp);
     float max_speed() const { return is_on_ground() ? type.max_ground_speed : type.max_air_speed; }
     bool is_circling() const;
 
