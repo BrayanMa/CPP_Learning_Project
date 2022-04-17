@@ -13,13 +13,13 @@ class AircraftManager : public GL::DynamicObject
 {
 private:
     std::vector<std::unique_ptr<Aircraft>> aircrafts;
-    int aircraft_crashed = 0;
+    unsigned int aircraft_crashed = 0;
 public:
     void move() override;
     void add_aircraft(std::unique_ptr<Aircraft> aircraft);
     int recup_airlines(const std::string_view& model);
     float get_required_fuel() const;
-    int get_aircraft_crashed() const{
+    unsigned int get_aircraft_crashed() const{
         return aircraft_crashed;
     }
 };

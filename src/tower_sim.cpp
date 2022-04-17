@@ -75,8 +75,6 @@ void TowerSimulation::init_airport()
                             new img::Image { one_lane_airport_sprite_path.get_full_path() },
         aircraft_manager,
     };
-
-    //GL::Displayable::display_queue.emplace_back(airport);
     GL::move_queue.emplace(airport);
 }
 
